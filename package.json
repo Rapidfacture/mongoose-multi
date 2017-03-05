@@ -1,26 +1,37 @@
 {
   "name": "mongoose-multi",
-  "version": "0.0.4",
+  "repository": {
+      "type": "git",
+      "url": "git+https://github.com/RAPIDFACTURE/mongoose-multi.git"
+  },
+  "bugs": {
+      "url": "https://github.com/rapidfacture/mongoose-multi/issues"
+  },
+  "homepage": "https://github.com/rapidfacture/mongoose-multi#readme",
+  "version": "0.0.5",
   "description": "Create multiple Mongoose connections to severals DBs; short, mongoDB like syntax for requests",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": {
-    "name": "Felix Furtmayr"
-  },
   "license": "ISC",
-  "dependencies": {
-    "mongoose": "^4.6.x"
-  },
-  "_npmVersion": "2.15.5",
   "_nodeVersion": "4.4.5",
+  "_npmVersion": "2.15.5",
   "_npmUser": {
     "name": "rapidfacture",
     "email": "ff@rapidfacture.com"
   },
-  "directories": {},
+  "main": "index.js",
+  "maintainers": [
+    {
+      "name": "rapidfacture",
+      "email": "ff@rapidfacture.com"
+    }
+  ],
+  "author": {
+    "name": "Felix Furtmayr"
+  },
+  "dependencies": {
+    "mongoose": "^4.6.x"
+  },
   "devDependencies": {},
+
   "keywords": [
     "mongoose",
     "multi",
@@ -28,12 +39,5 @@
     "database",
     "mongo",
     "connection"
-  ],
-  "_id": "mongoose-multi@0.0.4",
-  "maintainers": [
-    {
-      "name": "rapidfacture",
-      "email": "ff@rapidfacture.com"
-    }
   ]
 }

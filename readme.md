@@ -41,7 +41,9 @@ var connections = {
         },
         // further collections here in db.application
       })
-    }
+    },
+    options: { } // mongoose connection options
+    // default: server.auto_reconnect = true 
   }
   // databases here
 };
@@ -145,5 +147,4 @@ Ideas:
 
 ```
 ## ToDo
-* gitHub project
 * tests

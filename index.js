@@ -1,4 +1,4 @@
-// mongoose multi connections
+// mongoose-multi connections
 
 var mongoose = require('mongoose');
 
@@ -6,7 +6,7 @@ mongoose.Promise = global.Promise;
 
 module.exports = {
 
-    start: function (connections) {
+    start: function (connections, logFunction) {
 
       var db = {};
 
@@ -17,28 +17,25 @@ module.exports = {
 
       function startConnection(name, url, schemas, options) {
 
+        // check input data
         if (!name) {
-          err("no name specified for db");
+          console.error("Error - no name specified for db");
+          return;
+        }else if (!url) {
+          console.error("Error -  no url defined for db " + name);
+          return;
+        }else if (!schemas) {
+          console.error("Error - no schema found for db " + name);
           return;
         }
 
-        if (!url) {
-          err("no url defined for db " + name);
-          return;
+        // merge options
+        options = options || {};
+        options.server = options.server || {};
+        if(options.server.auto_reconnect !== false){
+            options.server.auto_reconnect = true;
         }
 
-        if (!schemas) {
-          err("no schema found for db " + name);
-          return;
-        }
-
-
-        // to do: merge options
-        options = {
-          server: {
-            auto_reconnect: true
-          }
-        };
 
         connections[name] = mongoose
           .createConnection(url, options);
@@ -49,20 +46,20 @@ module.exports = {
           log('MongoDB connecting to db' + name + 'at URL ' + url);
         });
         dbcon.on('error', function(error) {
-          err('Error in MongoDb connection: ' + error);
+          log('Error in MongoDb connection: ' + error);
           mongoose.disconnect();
         });
         dbcon.on('connected', function() {
-          log('MongoDB ' + name + 'connected!');
+          log('MongoDB ' + name + ' connected at URL ' + url);
         });
         dbcon.once('open', function() {
-          log('MongoDB ' + name + ' connection opened!');
+          log('MongoDB ' + name + ' connection opened at URL ' + url);
         });
         dbcon.on('reconnected', function() {
-          log('MongoDB ' + name +' reconnected!');
+          log('MongoDB ' + name +' reconnected at URL ' + url);
         });
         dbcon.on('disconnected', function() {
-          log('MongoDB ' + name + 'disconnected!');
+          log('MongoDB ' + name + 'disconnected at URL ' + url);
           // connect();
           // => not needed; auto_reconnect active
         });
@@ -76,11 +73,12 @@ module.exports = {
       }
 
       function log(text){
-          console.log('mongoose-multi: ' + text);
-      }
-
-      function err(text){
-          console.error('mongoose-multi: ' + text);
+          text = '[mongoose-multi] ' + text;
+          if (logFunction){ // plug in your log function
+               logFunction(text);
+          }else{
+              console.log(text);
+          }
       }
 
       return db;

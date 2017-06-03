@@ -8,7 +8,7 @@
       "url": "https://github.com/rapidfacture/mongoose-multi/issues"
   },
   "homepage": "https://github.com/rapidfacture/mongoose-multi#readme",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Create multiple Mongoose connections to severals DBs; short, mongoDB like syntax for requests",
   "license": "ISC",
   "_nodeVersion": "4.4.5",

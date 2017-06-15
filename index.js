@@ -43,7 +43,7 @@ module.exports = {
         var dbcon = connections[name];
 
         dbcon.on('connecting', function() {
-          log('MongoDB connecting to db' + name + 'at URL ' + url);
+          log('MongoDB connecting to db ' + name + ' at URL ' + url);
         });
         dbcon.on('error', function(error) {
           log('Error in MongoDb connection: ' + error);
@@ -59,7 +59,7 @@ module.exports = {
           log('MongoDB ' + name +' reconnected at URL ' + url);
         });
         dbcon.on('disconnected', function() {
-          log('MongoDB ' + name + 'disconnected at URL ' + url);
+          log('MongoDB ' + name + ' disconnected at URL ' + url);
           // connect();
           // => not needed; auto_reconnect active
         });

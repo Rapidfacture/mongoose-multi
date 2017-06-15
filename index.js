@@ -43,28 +43,30 @@ module.exports = {
         var dbcon = connections[name];
 
         dbcon.on('connecting', function() {
-          log('MongoDB connecting to db ' + name + ' at URL ' + url);
+          log('DB ' + name + ' connecting to ' + url);
         });
         dbcon.on('error', function(error) {
-          log('Error in MongoDb connection: ' + error);
+          log('DB ' + name +  ' connection error: ', error);
           mongoose.disconnect();
         });
         dbcon.on('connected', function() {
-          log('MongoDB ' + name + ' connected at URL ' + url);
+          log('DB ' + name + ' connected');
         });
         dbcon.once('open', function() {
-          log('MongoDB ' + name + ' connection opened at URL ' + url);
+          log('DB ' + name + ' connection open');
         });
         dbcon.on('reconnected', function() {
-          log('MongoDB ' + name +' reconnected at URL ' + url);
+          log('DB ' + name +' reconnected, ' + url);
         });
         dbcon.on('disconnected', function() {
-          log('MongoDB ' + name + ' disconnected at URL ' + url);
+          log('DB ' + name + ' disconnected, ' + url);
           // connect();
           // => not needed; auto_reconnect active
         });
 
-        db[name] = {};
+        db[name] = { // also return mongoose Connection for use in other modules
+           mongooseConnection: dbcon
+        };
 
         for (var schemaName in schemas) {
           db[name][schemaName + "s"] = dbcon.model(schemaName, schemas[schemaName]);

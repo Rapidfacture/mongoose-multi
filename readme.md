@@ -1,5 +1,7 @@
 # mongoose-multi
 
+Create multiple Mongoose connections to severals DBs. Store files through gridfs.
+
 ## Installation
 
 ```
@@ -138,7 +140,7 @@ Use gridfs-stream in your application like:
 ```javascript
 
 // read
-var readstream = db.books.files..createReadStream({
+var readstream = db.books.files.createReadStream({
    _id: data
 });
 readstream.pipe(res); // pipe stream to your express response and send it to client
@@ -149,19 +151,16 @@ readstream.pipe(res); // pipe stream to your express response and send it to cli
 var writestream = db.cad.drawingBins.createWriteStream({
    contentType: 'application/octet-stream'
 });
-
-// create a stream from buffer
-var stream = require('stream');
+var stream = require('stream'); // stream from buffer
 var bufferStream = new stream.PassThrough();
-bufferStream.end(buffer); //
+bufferStream.end(buffer);
+bufferStream.pipe(writestream); // buffer to gridfs
 
-// stream the buffer to gridfs
-bufferStream.pipe(writestream);
 writestream.on('close', function(file) {
-
+   console.log(file);
 });
 writestream.on('error', function(err) {
-
+   console.log(err);
 });
 
 ```

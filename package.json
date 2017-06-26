@@ -8,15 +8,9 @@
       "url": "https://github.com/rapidfacture/mongoose-multi/issues"
   },
   "homepage": "https://github.com/rapidfacture/mongoose-multi#readme",
-  "version": "0.0.7",
-  "description": "Create multiple Mongoose connections to severals DBs; short, mongoDB like syntax for requests",
+  "version": "0.0.8",
+  "description": "Create multiple Mongoose connections to severals DBs; supports also gridfs",
   "license": "ISC",
-  "_nodeVersion": "4.4.5",
-  "_npmVersion": "2.15.5",
-  "_npmUser": {
-    "name": "rapidfacture",
-    "email": "ff@rapidfacture.com"
-  },
   "main": "index.js",
   "maintainers": [
     {
@@ -28,7 +22,8 @@
     "name": "Felix Furtmayr"
   },
   "dependencies": {
-    "mongoose": "^4.6.x"
+    "mongoose": "^4.6.x",
+    "gridfs-stream": "1.1.1"
   },
   "devDependencies": {},
 
@@ -38,6 +33,8 @@
     "multiple",
     "database",
     "mongo",
+    "gridfs",
+    "files",
     "connection"
   ]
 }

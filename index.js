@@ -1,4 +1,5 @@
 // mongoose-multi connections
+/* jshint node: true, esversion:6 */ "use strict";
 
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
@@ -6,11 +7,30 @@ mongoose.Promise = global.Promise;
 var Grid = require('gridfs-stream');
 Grid.mongo = mongoose.mongo;
 
-module.exports = {
+// logging
+var log = {
+   error : console.log,
+   info : console.log,
+   success : console.log,
+};
+try { // try using rf-log
+   log = require(require.resolve("rf-log"));
+} catch (e) {}
+function logError (err){
+   throw new Error(err);
+}
 
-   start: function(connections, schemaFile, logFunction) {
+// public vars
+module.exports.db = {};
+module.exports.schemaFile = {};
+module.exports.connections = {};
 
-      var db = {};
+module.exports.start = function(connections, schemaFile) {
+
+      var db = module.exports.db;
+      module.exports.connections = connections;
+      module.exports.schemaFile = schemaFile;
+
 
       for (var conName in connections) {
          var connection = connections[conName];
@@ -28,13 +48,13 @@ module.exports = {
 
          // check input data
          if (!name) {
-            console.error("Error - no name specified for db");
+            log.error("[mongoose-multi] Error - no name specified for db");
             return;
          } else if (!url) {
-            console.error("Error -  no url defined for db " + name);
+            log.error("[mongoose-multi] Error -  no url defined for db " + name);
             return;
          } else if (!schemas) {
-            console.error("Error - no schema found for db " + name);
+            log.error("[mongoose-multi] Error - no schema found for db " + name);
             return;
          }
 
@@ -68,46 +88,42 @@ module.exports = {
 
 
          dbcon.on('connecting', function() {
-            log('DB ' + name + ' connecting to ' + url);
+            log.info('[mongoose-multi] DB ' + name + ' connecting to ' + url);
          });
          dbcon.on('error', function(error) {
-            log('DB ' + name + ' connection error: ', error);
+            log.error('[mongoose-multi] DB ' + name + ' connection error: ', error);
             mongoose.disconnect();
          });
          dbcon.on('connected', function() {
-            log('DB ' + name + ' connected');
+            log.success('[mongoose-multi] DB ' + name + ' connected');
          });
          dbcon.once('open', function() {
-            log('DB ' + name + ' connection open');
+            log.info('[mongoose-multi] DB ' + name + ' connection open');
 
             for (var schemaName in schemas) {
                if (schemas[schemaName] == "gridfs") {
                   db[name][schemaName + "s"] = Grid(dbcon.db);
-                  log('DB ' + name + ': Gridfs connected');
+                  log.info('[mongoose-multi] DB ' + name + ': Gridfs connected');
                }
             }
          });
          dbcon.on('reconnected', function() {
-            log('DB ' + name + ' reconnected, ' + url);
+            log.success('[mongoose-multi] DB ' + name + ' reconnected, ' + url);
          });
          dbcon.on('disconnected', function() {
-            log('DB ' + name + ' disconnected, ' + url);
-            // connect();
-            // => not needed; auto_reconnect active
+            log.error('[mongoose-multi] DB ' + name + ' disconnected, ' + url);
+
+            // there have been several issues with reconnecting
+            // we simple restart the whole process and try it again
+            if(options.server.auto_reconnect !== false){
+               setTimeout(function () {
+                  process.exit(0);
+               }, 10000);
+            }
+
          });
 
-      }
-
-      function log(text) {
-         text = '[mongoose-multi] ' + text;
-         if (logFunction) { // plug in your log function
-            logFunction(text);
-         } else {
-            console.log(text);
-         }
       }
 
       return db;
-   }
-
 };

@@ -182,6 +182,13 @@ The original mongoose connection is also returned for every DB to use it in othe
 
 
 
+## Mongoose reconnection issues
+
+There have been several issues, that prevent a correct reconnect to the databse.
+In many cases, one might never see a disconntect, but a app in production should reconnect reliable.
+In this version we simple terminate the process after 10 seconds disconnect and restart it automatic with pm2.
+This might be changed in the future, when there is a better and reliable workaround.
+Check if this is for your process.
 
 ## ToDo
 

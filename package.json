@@ -8,7 +8,7 @@
       "url": "https://github.com/rapidfacture/mongoose-multi/issues"
   },
   "homepage": "https://github.com/rapidfacture/mongoose-multi#readme",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Create multiple Mongoose connections to severals DBs; supports also gridfs",
   "license": "ISC",
   "main": "index.js",
@@ -25,8 +25,14 @@
     "mongoose": "^4.6.x",
     "gridfs-stream": "1.1.1"
   },
-  "devDependencies": {},
-
+  "devDependencies": {
+     "grunt": "1.0.1",
+     "grunt-eslint": "20.1.0"
+  },
+  "scripts": {
+     "prepublish": "npm test",
+     "test": "grunt"
+  },
   "keywords": [
     "mongoose",
     "multi",

@@ -42,7 +42,7 @@ Idea:
    // do sth. here with customers
  });
 
- db.books.articles.findOneAndUpdate().exec(function(err, docs) {
+ db.books.articles.findOneAndUpdate().exec(function(err, doc) {
    // do sth. here with article
  });
 ```
@@ -189,6 +189,16 @@ In many cases, one might never see a disconntect, but a app in production should
 In this version we simple terminate the process after 10 seconds disconnect and restart it automatic with pm2.
 This might be changed in the future, when there is a better and reliable workaround.
 Check if this is for your process.
+
+
+## Development
+Install the dev tools with
+
+> npm install
+
+Then you can runs some test cases and eslint with:
+
+> npm test
 
 ## ToDo
 

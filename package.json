@@ -8,7 +8,7 @@
       "url": "https://github.com/rapidfacture/mongoose-multi/issues"
   },
   "homepage": "https://github.com/rapidfacture/mongoose-multi#readme",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "Create multiple Mongoose connections to severals DBs; supports also gridfs",
   "license": "ISC",
   "main": "index.js",

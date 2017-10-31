@@ -46,12 +46,12 @@ Idea:
    // do sth. here with article
  });
 
- db.application.customers.findExactOne(function(err, doc) {
+ db.application.customers.findExactOne({}, function(err, doc) {
     // err if no or more than one docs are found
     // do sth. here with customer
  });
 
- db.books.articles.findMinOne(function(err, doc) {
+ db.books.articles.findMinOne({}, function(err, doc) {
    // err if no docs are found
    // do sth. here with article
  });

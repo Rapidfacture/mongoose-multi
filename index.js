@@ -3,6 +3,10 @@
 var mongoose = require('mongoose')
 mongoose.Promise = global.Promise
 
+// Register plugins
+mongoose.plugin(require('./plugin/findMinOne'))
+mongoose.plugin(require('./plugin/findOnlyOne'))
+
 var Grid = require('gridfs-stream')
 Grid.mongo = mongoose.mongo
 

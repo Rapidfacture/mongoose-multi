@@ -1,5 +1,7 @@
 // mongoose-multi connections
 
+var fs = require('fs')
+
 var mongoose = require('mongoose')
 mongoose.Promise = global.Promise
 
@@ -31,6 +33,38 @@ module.exports.connections = {}
 module.exports.start = function (connections, schemaFile) {
    var db = module.exports.db
    module.exports.connections = connections
+
+
+   if (typeof schemaFile === 'string') {
+      var schemaPath = schemaFile
+      schemaFile = {}
+
+      // extract all schemas from schemafile or folder with schema files
+      try {
+         if (fs.statSync(schemaPath).isDirectory()) {
+         // require all files within folder,  extract db schema and sort in corresponding obj
+         // NOTE: files need to have the same name as the database
+
+            fs.readdirSync(schemaPath).forEach(function (fileName) {
+               var filePath = schemaPath + '/' + fileName
+
+               if (fs.statSync(filePath).isDirectory()) {
+                  log.critical('tried to require ' + fileName + ', but path is a folder! Aborting. Please Check your Schema folder.')
+               }
+
+               var dbSchema = require(filePath)
+               var dbName = fileName.split('.js')[0]
+               schemaFile[dbName] = dbSchema
+            })
+         } else { //  path is the schmea file
+            schemaFile = require(schemaPath)
+         }
+      } catch (error) {
+         log.critical('tried extract schemas, please Check your Schema folder, an error occured: ' + error)
+      }
+   } // else => schemaFile is already the complete schema obj
+
+
    module.exports.schemaFile = schemaFile
 
 
@@ -86,7 +120,6 @@ module.exports.start = function (connections, schemaFile) {
             db[name][schemaName + 's'] = dbcon.model(schemaName, schemas[schemaName])
          }
       }
-
 
       dbcon.on('connecting', function () {
          log.info('[mongoose-multi] DB ' + name + ' connecting to ' + url)

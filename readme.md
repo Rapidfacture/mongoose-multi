@@ -28,14 +28,11 @@ Idea:
 - network configuration in separate file (different modes for production, development, etc.)
 - schemas in separate file
 
-**Start the module in the application**.
-
 ```javascript
+// Start the module in the application
  var  dbConfig = require('./config.js'),  // external network file
-      schemaFile = require('./schemas.js'),  // external schema file
       mongooseMulti = require('mongoose-multi'),
-      db = mongooseMulti.start(dbConfig, schemaFile);
-
+      db = mongooseMulti.start(dbConfig, './schemas.js'); // schema file path => mongoose-multi trys to require it
 
  // use it
  db.application.customers.find().exec(function(err, docs) {
@@ -57,18 +54,19 @@ Idea:
  });
 ```
 
-**Network config file**. You might integrate this your way.
+#### Network config file
+You might integrate this your way in your config. mongoose-multi needs one object with all database urls to connect to.
 
 ```javascript
  module.exports = {
      "db":{
          "application": 'mongodb://localhost:27017/application',
-         "books": 'mongodb://localhost:27017/books'
+         "book": 'mongodb://localhost:27017/books'
      }
  };
 ```
 
-**Mongoose Schemas file**. You might integrate this your way.
+#### Mongoose Schemas file
 
 ```javascript
  // mongose is needed here for the definition
@@ -90,7 +88,7 @@ Idea:
 
      },
 
-     books:{ // database
+     book:{ // database
 
          article: new Schema({ // collection
              description: {type: String},
@@ -107,6 +105,83 @@ Idea:
          // this collection "files" will be gridfs
          files: "gridfs"
      }
+
+ };
+```
+
+#### Advanced Schema file options
+
+Option 1: If you need to modifie the schemas in your code, you can do so and then directly pass the object for all schemas.
+
+```javascript
+// Start the module
+ var  dbConfig = require('./config.js'),  // external network file
+      schemaFile = require('./schemas.js'),  // external schema file
+      mongooseMulti = require('mongoose-multi'),
+      db = mongooseMulti.start(dbConfig, schemaFile);   
+
+// use "db" in your app  ..
+```
+
+
+Option 2: For bigger projects you can have a schema file folder. Each database has one file with it's name.
+
+```javascript
+// Start the module
+ var  dbConfig = require('./config.js'),  // external network file
+      mongooseMulti = require('mongoose-multi'),
+      db = mongooseMulti.start(dbConfig, './schemas'); // try to require all schema files within folder
+
+// use "db" in your app  ..
+```
+
+`./schemas/application` looks like:
+
+```javascript
+ /** schemas for db application
+ * @version 0.0.2
+ */
+ var mongoose = require('mongoose');
+ var Schema = mongoose.Schema;
+
+ module.exports = {
+    customer: new Schema({ // collection
+        mailaddress: {type: String},
+   }),
+
+   settings: new Schema({ // collection
+        customerId: {type: String, required: false},
+        options: {type: Array, required: false},
+   }),
+
+ };
+```
+
+`./schemas/book` looks like:
+
+```javascript
+/** schemas for db book
+* @version 0.0.4
+*/
+ var mongoose = require('mongoose');
+ var Schema = mongoose.Schema;
+
+ module.exports = {
+
+         article: new Schema({ // collection
+             description: {type: String},
+             numOfPages: {type:Number, required: false},
+             weight:{type:Number, required: false},
+         }),
+
+         paperback: new Schema({ // collection
+             description: {type: String, required: false},
+             numOfPages: {type:Number, required: false},
+             weight:{type:Number, required: false},
+         }),
+
+         // this collection "files" will be gridfs
+         files: "gridfs"
 
  };
 ```
@@ -129,7 +204,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 module.exports = {
-    books:{ // database
+    book:{ // database
 
       // this collection "files" will be gridfs
       // use `gridfs` as string instead of the mongoose schema

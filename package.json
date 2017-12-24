@@ -20,7 +20,7 @@
       "grunt-eslint": "20.1.0"
    },
    "scripts": {
-      "prepublish": "npm test",
+      "prepublish": "sh test/isRepoClean && npm test",
       "test": "grunt"
    },
    "keywords": [

@@ -2,23 +2,30 @@
 module.exports = exports = function findExactOnePlugin (schema, options) {
    /**
     * Searches for one and only one document
-    * If more docs are found, it would return an error
-    * If no docs are found, it would return an error, too
     */
    schema.static('findExactOne', function (conditions, callback) {
       return this.find(conditions, function (err, data) {
+         // error: database
          if (err) {
             callback(err, null)
-         } else if (!data) {
-            err = new Error('No docs found in schema "' + schema + '"!')
-            err.code = 'RF001'
-            callback(err, null)
+
+         // error: no document
+         } else if (!data || !data[0]) {
+            callback({
+               message: 'No docs found!',
+               code: 'RF001'
+            }, null)
+
+         // error: several documents
          } else if (data.length > 1) {
-            err = new Error('To many docs found in schema "' + schema + '"!')
-            err.code = 'RF002'
-            callback(err, null)
+            callback({
+               message: 'To many docs found!',
+               code: 'RF002'
+            }, null)
+
+         // fine
          } else {
-            callback(err, data[0])
+            callback(null, data[0])
          }
       })
    })

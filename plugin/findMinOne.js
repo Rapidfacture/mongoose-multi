@@ -13,7 +13,7 @@ module.exports = exports = function findMinOnePlugin (schema, options) {
    schema.post('find', function (docs, next) {
       if (this.findMinOne === true && (!docs || docs.length < 1)) {
          return next({
-            message: 'No docs found',
+            message: 'No docs found!',
             code: 'RF001'
          });
       }

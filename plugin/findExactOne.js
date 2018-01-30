@@ -12,7 +12,7 @@ module.exports = exports = function findExactOnePlugin (schema, options) {
    schema.post('find', function (docs, next) {
       if (this.findExactOne === true && (!docs || docs.length < 1)) {
          return next({
-            message: 'No docs found',
+            message: 'No docs found!',
             code: 'RF001'
          });
       } else if (this.findExactOne === true && docs.length > 1) {

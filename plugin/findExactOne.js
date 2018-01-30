@@ -11,9 +11,15 @@ module.exports = exports = function findExactOnePlugin (schema, options) {
 
    schema.post('find', function (docs, next) {
       if (this.findExactOne === true && (!docs || docs.length < 1)) {
-         return next(new Error('No docs found!'));
+         return next({
+            message: 'No docs found',
+            code: 'RF001'
+         });
       } else if (this.findExactOne === true && docs.length > 1) {
-         return next(new Error('To many docs found!'));
+         return next({
+            message: 'To many docs found!',
+            code: 'RF002'
+         });
       }
       return next();
    });

@@ -12,7 +12,7 @@
       "name": "Felix Furtmayr"
    },
    "dependencies": {
-      "mongoose": "^4.6.x",
+      "mongoose": "4.6.x",
       "gridfs-stream": "1.1.1"
    },
    "devDependencies": {

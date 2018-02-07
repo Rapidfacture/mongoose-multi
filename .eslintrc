@@ -13,9 +13,27 @@
     "node": true
   },
 
-  "plugins": [ ],
+  "plugins": [
+      "protractor"
+  ],
 
-  "globals": { },
+  "extends": "plugin:protractor/recommended",
+
+  "globals": {
+    "document": false,
+    "navigator": false,
+    "window": false,
+    "app": false,
+    "WebSocket": false,
+    "alert": false,
+    "d3": false,
+    "angular": false,
+    "CodeMirror": true,
+    "saveAs": true,
+    "Blob": true,
+    "marked": true,
+    "THREE": true
+  },
 
   "rules": {
     "accessor-pairs": "error",
@@ -43,7 +61,7 @@
     "indent": ["error", 3, { "SwitchCase": 1 }],
     "key-spacing": ["error", { "beforeColon": false, "afterColon": true }],
     "keyword-spacing": ["error", { "before": true, "after": true }],
-    "new-cap": ["error", { "newIsCap": true, "capIsNew": false }],
+    "new-cap": ["error", { "newIsCap": false, "properties": false}],
     "new-parens": "error",
     "no-array-constructor": "error",
     "no-caller": "error",
@@ -142,7 +160,7 @@
     "prefer-promise-reject-errors": "error",
     "quotes": ["error", "single", { "avoidEscape": true, "allowTemplateLiterals": true }],
     "rest-spread-spacing": ["error", "never"],
-    "semi": ["error", "never"],
+    "semi": ["error", "always"],
     "semi-spacing": ["error", { "before": false, "after": true }],
     "space-before-blocks": ["error", "always"],
     "space-before-function-paren": ["error", "always"],

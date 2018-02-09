@@ -153,7 +153,6 @@
     "no-with": "error",
     "object-property-newline": ["error", { "allowMultiplePropertiesPerLine": true }],
     "operator-linebreak": ["error", "after", { "overrides": { "?": "before", ":": "before" } }],
-    "padded-blocks": ["error", { "blocks": "never", "switches": "never", "classes": "never" }],
     "prefer-promise-reject-errors": "error",
     "quotes": ["error", "single", { "avoidEscape": true, "allowTemplateLiterals": true }],
     "rest-spread-spacing": ["error", "never"],

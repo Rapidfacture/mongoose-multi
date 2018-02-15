@@ -9,8 +9,8 @@ mongoose.Promise = global.Promise;
 mongoose.plugin(require('./plugin/findMinOne'));
 mongoose.plugin(require('./plugin/findExactOne'));
 
-var Grid = require('gridfs-stream');
-Grid.mongo = mongoose.mongo;
+var grid = require('gridfs-stream');
+grid.mongo = mongoose.mongo;
 
 // logging
 var log;
@@ -136,7 +136,7 @@ module.exports.start = function (connections, schemaFile) {
 
          for (var schemaName in schemas) {
             if (schemas[schemaName] === 'gridfs') {
-               db[name][schemaName + 's'] = Grid(dbcon.db);
+               db[name][schemaName + 's'] = grid(dbcon.db);
                log.info('[mongoose-multi] DB ' + name + ': Gridfs connected');
             }
          }

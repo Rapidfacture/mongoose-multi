@@ -1,8 +1,8 @@
 
 module.exports = function (grunt) {
-   grunt.loadNpmTasks('grunt-eslint')
+   grunt.loadNpmTasks('grunt-eslint');
 
-   grunt.registerTask('default', ['eslint'])
+   grunt.registerTask('default', ['eslint']);
 
 
    grunt.initConfig({
@@ -15,5 +15,5 @@ module.exports = function (grunt) {
          target: ['*.js']
       }
 
-   })
-}
+   });
+};

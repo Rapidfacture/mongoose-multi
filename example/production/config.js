@@ -3,8 +3,8 @@
 
 // Backend
 module.exports = {
-    "db":{
-        "application": 'mongodb://localhost:27017/application',
-        "books": 'mongodb://localhost:27017/books'
-    }
+   'db': {
+      'application': 'mongodb://localhost:27017/application',
+      'books': 'mongodb://localhost:27017/books'
+   }
 };

@@ -4,10 +4,12 @@
    "description": "Create multiple Mongoose connections to severals DBs; supports also gridfs",
    "license": "ISC",
    "main": "index.js",
-   "maintainers": [{
-      "name": "rapidfacture",
-      "email": "ff@rapidfacture.com"
-   }],
+   "maintainers": [
+      {
+         "name": "rapidfacture",
+         "email": "ff@rapidfacture.com"
+      }
+   ],
    "author": {
       "name": "Felix Furtmayr"
    },

@@ -117,7 +117,7 @@ module.exports.start = function (connections, schemaFile) {
       // create connections for this database
       for (var schemaName in schemas) {
          if (schemas[schemaName] !== 'gridfs') { // gridfs?
-            db[name][schemaName + 's'] = dbcon.model(schemaName, schemas[schemaName]);
+            db[name][schemaName] = dbcon.model(schemaName, schemas[schemaName]);
          }
       }
 

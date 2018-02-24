@@ -15,11 +15,11 @@ npm install mongoose-multi --save
 The syntax is like 'database.collection' for maximum clarity.
 
 ```javascript
-db.application.customers.find().exec(function(err, docs) {
+db.application.customer.find().exec(function(err, docs) {
   // do sth. here with customers
 });
 ```
-"customers" is the mongoose model and can use it's methods. See <http://mongoosejs.com/docs/guide.html>.
+"customer" is the mongoose model and can use it's methods. See <http://mongoosejs.com/docs/guide.html>.
 
 
 ### Start the Module
@@ -35,20 +35,20 @@ Idea:
       db = mongooseMulti.start(dbConfig, './schemas.js'); // schema file path => mongoose-multi trys to require it
 
  // use it
- db.application.customers.find().exec(function(err, docs) {
+ db.application.customer.find().exec(function(err, docs) {
    // do sth. here with customers
  });
 
- db.books.articles.findOneAndUpdate().exec(function(err, doc) {
+ db.books.article.findOneAndUpdate().exec(function(err, doc) {
    // do sth. here with article
  });
 
- db.application.customers.findExactOne({}, function(err, doc) {
+ db.application.customer.findExactOne({}, function(err, doc) {
     // err if no or more than one docs are found
     // do sth. here with customer
  });
 
- db.books.articles.findMinOne({}, function(err, doc) {
+ db.books.article.findMinOne({}, function(err, doc) {
    // err if no docs are found
    // do sth. here with article
  });
@@ -233,7 +233,7 @@ readstream.pipe(res); // pipe stream to your express response and send it to cli
 
 
 // write 'buffer' into gridfs
-var writestream = db.cad.drawingBins.createWriteStream({
+var writestream = db.cad.drawingBin.createWriteStream({
    contentType: 'application/octet-stream'
 });
 var stream = require('stream'); // stream from buffer

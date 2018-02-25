@@ -1,6 +1,6 @@
 {
    "name": "mongoose-multi",
-   "version": "0.3.0",
+   "version": "0.3.1",
    "description": "Create multiple Mongoose connections to severals DBs; supports also gridfs",
    "license": "ISC",
    "main": "index.js",

@@ -117,7 +117,8 @@ module.exports.start = function (connections, schemaFile) {
       // create connections for this database
       for (var schemaName in schemas) {
          if (schemas[schemaName] !== 'gridfs') { // gridfs?
-            db[name][schemaName] = dbcon.model(schemaName, schemas[schemaName]);
+            var pluralAddition = (schemaName[schemaName.length - 1] === 's') ? 'es' : 's';
+            db[name][schemaName + pluralAddition] = dbcon.model(schemaName, schemas[schemaName]);
          }
       }
 
@@ -136,7 +137,8 @@ module.exports.start = function (connections, schemaFile) {
 
          for (var schemaName in schemas) {
             if (schemas[schemaName] === 'gridfs') {
-               db[name][schemaName + 's'] = grid(dbcon.db);
+               var pluralAddition = (schemaName[schemaName.length - 1] === 's') ? 'es' : 's';
+               db[name][schemaName + pluralAddition] = grid(dbcon.db);
                log.info('[mongoose-multi] DB ' + name + ': Gridfs connected');
             }
          }

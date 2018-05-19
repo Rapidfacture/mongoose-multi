@@ -14,12 +14,12 @@
       "name": "Felix Furtmayr"
    },
    "dependencies": {
-      "mongoose": "4.6.x",
-      "gridfs-stream": "1.1.1"
+      "gridfs-stream": "1.1.1",
+      "mongoose": "^5.1.1"
    },
    "devDependencies": {
-      "grunt": "1.0.1",
-      "grunt-eslint": "20.1.0"
+      "grunt": "^1.0.1",
+      "grunt-eslint": "^20.1.0"
    },
    "scripts": {
       "prepublish": "npm test",

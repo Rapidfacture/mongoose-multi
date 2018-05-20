@@ -30,9 +30,9 @@ Idea:
 
 ```javascript
 // Start the module in the application
- var  dbConfig = require('./config.js'),  // external network file
+ var  dbConfig = require('./config.js').db,  // external network file
       mongooseMulti = require('mongoose-multi'),
-      db = mongooseMulti.start(dbConfig, './schemas.js'); // schema file path => mongoose-multi trys to require it
+      db = mongooseMulti.start(dbConfig, node.env.PWD + './schemas.js'); // schema file path => mongoose-multi trys to require it
 
  // use it
  db.application.customer.find().exec(function(err, docs) {
@@ -128,9 +128,9 @@ Option 2: For bigger projects you can have a schema file folder. Each database h
 
 ```javascript
 // Start the module
- var  dbConfig = require('./config.js'),  // external network file
+ var  dbConfig = require('./config.js').db,  // external network file
       mongooseMulti = require('mongoose-multi'),
-      db = mongooseMulti.start(dbConfig, './schemas'); // try to require all schema files within folder
+      db = mongooseMulti.start(dbConfig, node.env.PWD + './schemas'); // try to require all schema files within folder
 
 // use "db" in your app  ..
 ```

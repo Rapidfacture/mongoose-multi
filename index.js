@@ -95,9 +95,8 @@ module.exports.start = function (connections, schemaFile) {
 
       // merge options
       options = options || {};
-      options.server = options.server || {};
-      if (options.server.auto_reconnect !== false) {
-         options.server.auto_reconnect = true;
+      if (options.auto_reconnect !== false) {
+         options.auto_reconnect = true;
       }
 
 
@@ -151,7 +150,7 @@ module.exports.start = function (connections, schemaFile) {
 
          // there have been several issues with reconnecting
          // we simple restart the whole process and try it again
-         if (options.server.auto_reconnect !== false) {
+         if (options.auto_reconnect !== false) {
             setTimeout(function () {
                log.error('[mongoose-multi] shutting down application for restart: Try to reconnet DB.');
                process.exit(0);

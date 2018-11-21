@@ -20,7 +20,8 @@ try { // try using rf-log
    log = {
       error: console.log,
       info: console.log,
-      success: console.log
+      success: console.log,
+      critical: console.error
    };
 }
 

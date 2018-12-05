@@ -76,9 +76,12 @@ module.exports.start = function (connections, schemaFile) {
       // obj holding url + options => transform
       if (typeof connection !== 'string') {
          options = connection.options || {};
-         options.useNewUrlParser = options.useNewUrlParser || true;
          url = connection.url;
       }
+
+      // add mongoose option for newer version to prevent deprecation warning
+      options.useNewUrlParser = options.useNewUrlParser || true;
+
       startConnection(conName, url, schemaFile[conName], options);
    }
 

@@ -187,6 +187,37 @@ Option 2: For bigger projects you can have a schema file folder. Each database h
 ```
 
 
+#### Network config file
+The network file may include all urls to your databases:
+
+```javascript
+ module.exports = {
+     "db":{
+         "application": 'mongodb://localhost:27017/application',
+         "book": 'mongodb://localhost:27017/books'
+     }
+ };
+```
+
+Alternative you can also pass options:
+
+```javascript
+ module.exports = {
+    module.exports = {
+        db: {
+            online: {
+                url: "mongodb://localhost:27017/auditoria",
+                options : {useNewUrlParser: true}
+            },
+            history: {
+                url: "mongodb://otheHost:27017/db_arquitectura",
+                options : {}
+            }
+        }
+    }
+ };
+```
+
 
 ## gridfs support
 

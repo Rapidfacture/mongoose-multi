@@ -76,6 +76,7 @@ module.exports.start = function (connections, schemaFile) {
       // obj holding url + options => transform
       if (typeof connection !== 'string') {
          options = connection.options || {};
+         options.useNewUrlParser = options.useNewUrlParser || true;
          url = connection.url;
       }
       startConnection(conName, url, schemaFile[conName], options);

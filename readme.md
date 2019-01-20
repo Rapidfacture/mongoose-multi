@@ -30,27 +30,33 @@ Idea:
 
 ```javascript
 // Start the module in the application
- var  dbConfig = require('./config.js').db,  // external network file
+var   dbConfig = require('./config.js').db,  // external network file
       mongooseMulti = require('mongoose-multi'),
       db = mongooseMulti.start(dbConfig, node.env.PWD + './schemas.js'); // schema file path => mongoose-multi trys to require it
 
- // use it
- db.application.customer.find().exec(function(err, docs) {
-   // do sth. here with customers
- });
 
- db.books.article.findOneAndUpdate().exec(function(err, doc) {
-   // do sth. here with article
- });
+// wait for connection to be open
+db.application.mongooseConnection.once('open', function () {
 
- db.application.customer.findExactOne({}, function(err, doc) {
-    // err if no or more than one docs are found
-    // do sth. here with customer
- });
+    // use it
+    db.application.customer.find().exec(function(err, docs) {
+      // do sth. here with customers
+    });
 
- db.books.article.findMinOne({}, function(err, doc) {
-   // err if no docs are found
-   // do sth. here with article
+    db.books.article.findOneAndUpdate().exec(function(err, doc) {
+      // do sth. here with article
+    });
+
+    db.application.customer.findExactOne({}, function(err, doc) {
+       // err if no or more than one docs are found
+       // do sth. here with customer
+    });
+
+    db.books.article.findMinOne({}, function(err, doc) {
+      // err if no docs are found
+      // do sth. here with article
+    });
+
  });
 ```
 

@@ -1,4 +1,5 @@
-var mongooseMulti = require('../index.js');
+var mongooseMulti = require('../../index.js');
+
 
 
 // this two lines are needed for mongoose schema definition below in "connections"

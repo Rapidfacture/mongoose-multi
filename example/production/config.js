@@ -5,6 +5,6 @@
 module.exports = {
    'db': {
       'application': 'mongodb://localhost:27017/application',
-      'books': 'mongodb://localhost:27017/books'
+      'book': 'mongodb://localhost:27017/books'
    }
 };

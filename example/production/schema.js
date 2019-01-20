@@ -12,14 +12,14 @@ module.exports = {
          mailaddress: {type: String}
       }),
 
-      settings: new Schema({ // collection
+      setting: new Schema({ // collection
          customerId: {type: String, required: false},
          options: {type: Array, required: false}
       })
 
    },
 
-   books: { // database
+   book: { // database
 
       article: new Schema({ // collection
          description: {type: String},

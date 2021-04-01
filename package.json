@@ -1,6 +1,6 @@
 {
    "name": "mongoose-multi",
-   "version": "0.4.6",
+   "version": "0.5.0",
    "description": "Create multiple Mongoose connections to severals DBs; supports also gridfs",
    "license": "ISC",
    "main": "index.js",
@@ -15,7 +15,7 @@
    },
    "dependencies": {
       "gridfs-stream": "1.1.1",
-      "mongoose": "^5.1.1"
+      "mongoose": "5.12.3"
    },
    "devDependencies": {
       "grunt": "^1.0.1",

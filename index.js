@@ -87,36 +87,25 @@ module.exports.start = function (connections, schemaFile) {
 
    function startConnection (name, url, schemas, options) {
       // check input data
-      if (!name) {
-         log.error('[mongoose-multi] Error - no name specified for db');
-         return;
-      } else if (!url) {
-         log.error('[mongoose-multi] Error -  no url defined for db ' + name);
-         return;
-      } else if (!schemas) {
-         log.error('[mongoose-multi] Error - no schema found for db ' + name);
-         return;
-      }
+      if (!name) return log.error('[mongoose-multi] Error - no name specified for db');
+      if (!url) return log.error('[mongoose-multi] Error -  no url defined for db ' + name);
+      if (!schemas) return log.error('[mongoose-multi] Error - no schema found for db ' + name);
 
       // merge options
       options = options || {};
-      if (options.auto_reconnect !== false) {
-         options.auto_reconnect = true;
-      }
+      if (options.auto_reconnect !== false) options.auto_reconnect = true;
+      options.useUnifiedTopology = true;
 
 
       // connect database
-      connections[name] = mongoose
-         .createConnection(url, options);
+      connections[name] = mongoose.createConnection(url, options);
 
       var dbcon = connections[name];
 
       // assemble the return object
 
       // return pure mongoose connection => use in other modules; use the events above
-      db[name] = {
-         mongooseConnection: dbcon
-      };
+      db[name] = { mongooseConnection: dbcon };
 
       // create connections for this database
       for (var schemaName in schemas) {

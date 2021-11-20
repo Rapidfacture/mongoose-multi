@@ -115,24 +115,26 @@ module.exports.start = function (connections, schemaFile) {
          db[name][schemaName + pluralAddition] = dbcon.model(schemaName, schemas[schemaName]);
       }
 
+      var prefix = '[mongoose-multi] DB ' + name;
+
       dbcon.on('connecting', function () {
-         log.info('[mongoose-multi] DB ' + name + ' connecting to ' + url);
+         log.info(prefix + ' connecting to ' + url);
       });
       dbcon.on('error', function (error) {
-         log.error('[mongoose-multi] DB ' + name + ' connection error: ', error);
+         log.error(prefix + ' connection error: ', error);
          mongoose.disconnect();
       });
       dbcon.on('connected', function () {
-         log.success('[mongoose-multi] DB ' + name + ' connected');
+         log.success(prefix + ' connected');
       });
       dbcon.once('open', function () {
-         log.info('[mongoose-multi] DB ' + name + ' connection open');
+         log.info(prefix + ' connection open');
       });
       dbcon.on('reconnected', function () {
-         log.success('[mongoose-multi] DB ' + name + ' reconnected, ' + url);
+         log.success(prefix + ' reconnected, ' + url);
       });
       dbcon.on('disconnected', function () {
-         log.error('[mongoose-multi] DB ' + name + ' disconnected, ' + url);
+         log.error(prefix + ' disconnected, ' + url);
 
          // there have been several issues with reconnecting
          // we simple restart the whole process and try it again

@@ -1,6 +1,7 @@
 # mongoose-multi
+Create multiple Mongoose connections to severals DBs.
 
-Create multiple Mongoose connections to severals DBs. Store files through gridfs.
+Note: gridfs support was removed in 1.0.0
 
 ## Installation
 
@@ -12,7 +13,7 @@ npm install mongoose-multi --save
 
 ### Use the module in your code
 
-The syntax is like 'database.collection' for maximum clarity.
+The syntax is 'database.collection' for maximum clarity.
 
 ```javascript
 db.application.customer.find().exec(function(err, docs) {
@@ -106,10 +107,7 @@ You might integrate this your way in your config. mongoose-multi needs one objec
              description: {type: String, required: false},
              numOfPages: {type:Number, required: false},
              weight:{type:Number, required: false},
-         }),
-
-         // this collection "files" will be gridfs
-         files: "gridfs"
+         })
      }
 
  };
@@ -184,10 +182,7 @@ Option 2: For bigger projects you can have a schema file folder. Each database h
              description: {type: String, required: false},
              numOfPages: {type:Number, required: false},
              weight:{type:Number, required: false},
-         }),
-
-         // this collection "files" will be gridfs
-         files: "gridfs"
+         })
 
  };
 ```
@@ -223,70 +218,6 @@ Alternative you can also pass options:
     }
  };
 ```
-
-
-## gridfs support
-
-Why use gridfs?
-
-- serve files over the network
-- easy backup together with database
-- no extra changes on mongoDB itselfe
-
-This module uses mongoose-gridfs for addressing gridfs. In your schema file, use:
-
-```javascript
-// mongose is needed here for the definition
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-
-module.exports = {
-    book:{ // database
-
-      // this collection "files" will be gridfs
-      // use `gridfs` as string instead of the mongoose schema
-      files: "gridfs"
-
-      // standard mongoose connection
-      paperback: new Schema({ // collection
-         description: {type: String, required: false},
-         numOfPages: {type:Number, required: false},
-         weight:{type:Number, required: false},
-      }),
-
-    }
-};
-```
-Use gridfs-stream in your application like:
-
-```javascript
-
-// read
-var readstream = db.books.files.createReadStream({
-   _id: data
-});
-readstream.pipe(res); // pipe stream to your express response and send it to client
-
-
-
-// write 'buffer' into gridfs
-var writestream = db.cad.drawingBin.createWriteStream({
-   contentType: 'application/octet-stream'
-});
-var stream = require('stream'); // stream from buffer
-var bufferStream = new stream.PassThrough();
-bufferStream.end(buffer);
-bufferStream.pipe(writestream); // buffer to gridfs
-
-writestream.on('close', function(file) {
-   console.log(file);
-});
-writestream.on('error', function(err) {
-   console.log(err);
-});
-
-```
-See https://www.npmjs.com/package/gridfs-stream for further commands.
 
 
 ## Reuse the mongoose connection

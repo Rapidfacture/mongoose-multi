@@ -9,8 +9,6 @@ mongoose.Promise = global.Promise;
 mongoose.plugin(require('./plugin/findMinOne'));
 mongoose.plugin(require('./plugin/findExactOne'));
 
-var grid = require('gridfs-stream');
-grid.mongo = mongoose.mongo;
 
 // logging
 var log;
@@ -48,14 +46,18 @@ module.exports.start = function (connections, schemaFile) {
 
             fs.readdirSync(schemaPath).forEach(function (fileName) {
                var filePath = schemaPath + '/' + fileName;
+               var words = fileName.split('.');
+               var dbName = words[0];
+               var extension = words[words.length - 1];
 
                if (fs.statSync(filePath).isDirectory()) {
                   log.critical('tried to require ' + fileName + ', but path is a folder! Aborting. Please Check your Schema folder.');
                }
 
-               var dbSchema = require(filePath);
-               var dbName = fileName.split('.js')[0];
-               schemaFile[dbName] = dbSchema;
+               if (extension === 'js') {
+                  var dbSchema = require(filePath);
+                  schemaFile[dbName] = dbSchema;
+               }
             });
          } else { //  path is the schmea file
             schemaFile = require(schemaPath);
@@ -109,10 +111,8 @@ module.exports.start = function (connections, schemaFile) {
 
       // create connections for this database
       for (var schemaName in schemas) {
-         if (schemas[schemaName] !== 'gridfs') { // gridfs?
-            var pluralAddition = (schemaName[schemaName.length - 1] === 's') ? 'es' : 's';
-            db[name][schemaName + pluralAddition] = dbcon.model(schemaName, schemas[schemaName]);
-         }
+         var pluralAddition = (schemaName[schemaName.length - 1] === 's') ? 'es' : 's';
+         db[name][schemaName + pluralAddition] = dbcon.model(schemaName, schemas[schemaName]);
       }
 
       dbcon.on('connecting', function () {
@@ -127,14 +127,6 @@ module.exports.start = function (connections, schemaFile) {
       });
       dbcon.once('open', function () {
          log.info('[mongoose-multi] DB ' + name + ' connection open');
-
-         for (var schemaName in schemas) {
-            if (schemas[schemaName] === 'gridfs') {
-               var pluralAddition = (schemaName[schemaName.length - 1] === 's') ? 'es' : 's';
-               db[name][schemaName + pluralAddition] = grid(dbcon.db);
-               log.info('[mongoose-multi] DB ' + name + ': Gridfs connected');
-            }
-         }
       });
       dbcon.on('reconnected', function () {
          log.success('[mongoose-multi] DB ' + name + ' reconnected, ' + url);

@@ -95,7 +95,6 @@ module.exports.start = function (connections, schemaFile) {
 
       // merge options
       options = options || {};
-      if (options.auto_reconnect !== false) options.auto_reconnect = true;
       options.useUnifiedTopology = true;
 
 

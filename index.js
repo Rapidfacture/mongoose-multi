@@ -99,7 +99,8 @@ module.exports.start = function (connections, schemaFile) {
 
 
       // connect database
-      connections[name] = mongoose.createConnection(url, options);
+      var opts = JSON.parse(JSON.stringify(options)); delete opts.auto_reconnect; // remove "auto_reconnect" as it is no longer supported
+      connections[name] = mongoose.createConnection(url, opts);
 
       var dbcon = connections[name];
 
@@ -137,6 +138,7 @@ module.exports.start = function (connections, schemaFile) {
 
          // there have been several issues with reconnecting
          // we simple restart the whole process and try it again
+         // we assume we will have created our own framework first, before this is fixed reliable in mongoose
          if (options.auto_reconnect !== false) {
             setTimeout(function () {
                log.error('[mongoose-multi] shutting down application for restart: Try to reconnet DB.');

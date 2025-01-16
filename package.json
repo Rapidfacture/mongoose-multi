@@ -14,7 +14,7 @@
       "name": "Felix Furtmayr"
    },
    "dependencies": {
-      "mongoose": "6.4.6"
+      "mongoose": "8.9.5"
    },
    "devDependencies": {
       "grunt": "^1.0.1",
